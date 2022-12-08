@@ -7,7 +7,33 @@ export default function Signup() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  
+  const handleSubmit = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:3001/user/signup',
+        data: {
+          email: email,
+          password: password
+        },
+      });
+      const token = response.data.token;
+      const user = response.data.user;
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      history.push('/');
+    }
+    catch (err) {
+      console.log('Error :- ', err);
+    }
+    finally {
+      setEmail('');
+      setPassword('');
+    }
+  };
+
+
 
 
 
@@ -19,7 +45,7 @@ export default function Signup() {
         <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <label htmlFor="password">Password</label>
         <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Sign Up</button>
+        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }}>Submit</button>
       </form>
       <button onClick={() => history.push('/login')}>Go To Login</button>
     </div>

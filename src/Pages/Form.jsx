@@ -25,13 +25,18 @@ export default function Form(props) {
   const addData = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/new',
-        {
+      await axios({
+        method: 'post',
+        url: 'http://localhost:3001/new',
+        data: {
           firstName: firstName,
           lastName: lastName,
           age: age,
+        },
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-      );
+      })
       history.push('/');
     }
     catch (error) {
@@ -48,13 +53,18 @@ export default function Form(props) {
   const updateData = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3001/update/${id}`,
-        {
+      await axios({
+        method: 'put',
+        url: `http://localhost:3001/update/${id}`,
+        data: {
           firstName: firstName,
           lastName: lastName,
           age: age,
+        },
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-      );
+      })
       history.push('/');
     }
     catch (error) {

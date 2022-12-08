@@ -11,13 +11,25 @@ export default function Home() {
 
   const getData = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/all');
+      const response = await axios({
+        method: 'get',
+        url: 'http://localhost:3001/all',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       setPeople(response.data.data);
     }
     catch (error) {
       console.log('Error :- ');
       console.log(error);
     }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    history.push('/login');
   };
 
 
@@ -59,6 +71,7 @@ export default function Home() {
       >Add New</button>
       <button
         style={{ marginTop: '5%' }}
+        onClick={logout}
       >Log Out</button>
     </div>
   )

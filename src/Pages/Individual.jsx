@@ -10,7 +10,13 @@ export default function Individual() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/individual/${id}`);
+      const response = await axios({
+        method: 'get',
+        url: `http://localhost:3001/individual/${id}`,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
       setPerson(response.data);
     }
     catch (error) {

@@ -38,16 +38,21 @@ export default function Signup() {
 
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form>
-        <label htmlFor="email">Email</label>
-        <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }}>Submit</button>
-      </form>
-      <button onClick={() => history.push('/login')}>Go To Login</button>
-    </div>
+    <>
+      {
+      localStorage.getItem('token') ? history.push('/') :
+        <div>
+          <h1>Sign Up</h1>
+          <form>
+            <label htmlFor="email">Email</label>
+            <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button onClick={(e) => { e.preventDefault(); handleSubmit(); }}>Submit</button>
+          </form>
+          <button onClick={() => history.push('/login')}>Go To Login</button>
+        </div>
+      }
+    </>
   )
 }

@@ -37,15 +37,20 @@ export default function Login() {
 
   return (
     <div>
-      <h1>Login</h1>
-      <form>
-        <label htmlFor="email">Email</label>
-        <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit" onClick={(e) => { e.preventDefault(); handleSubmit(); }}>Submit</button>
-      </form>
-      <button onClick={() => history.push('/signup')}>Go To Signup</button>
+      {
+        localStorage.getItem('token') ? history.push('/') :
+          <div>
+            <h1>Login</h1>
+            <form>
+              <label htmlFor="email">Email</label>
+              <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <label htmlFor="password">Password</label>
+              <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <button type="submit" onClick={(e) => { e.preventDefault(); handleSubmit(); }}>Submit</button>
+            </form>
+            <button onClick={() => history.push('/signup')}>Go To Signup</button>
+           </div>
+      }
     </div>
   )
 }

@@ -26,6 +26,21 @@ export default function Home() {
     }
   };
 
+  const deleteRow = async (id) => {
+    try {
+      await axios({
+        method: 'delete',
+        url: `http://localhost:3001/delete/${id}`,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    } catch (error) {
+      console.log('Error :- ');
+      console.log(error);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -35,7 +50,7 @@ export default function Home() {
 
   React.useEffect(() => {
     getData();
-  }, [])
+  }, [people])
 
 
 
@@ -49,16 +64,20 @@ export default function Home() {
             <th>First Name</th>
             <th>Last Name</th>
             <th>Age</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {
             people.map((person, index) => {
               return (
-                <tr key={index} id={person._id} onClick={(e) => history.push(`/individual/${person._id}`)} style={{ cursor: 'pointer' }}>
+                <tr key={index} id={person._id}>
                   <td>{person.firstName}</td>
                   <td>{person.lastName}</td>
                   <td>{person.age}</td>
+                  <td><button onClick={(e) => history.push(`/individual/${person._id}`)} style={{ cursor: 'pointer' }}>Show</button></td>
+                  <td><button onClick={() => deleteRow(person._id)}>Delete</button></td>
                 </tr>
               )
             })

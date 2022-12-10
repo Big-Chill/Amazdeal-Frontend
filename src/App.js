@@ -1,30 +1,33 @@
 import './App.css';
-import Home from './Pages/Home';
-import Signup from './Pages/Signup';
-import Login from './Pages/Login';
-import Privateroute from './Pages/Privateroute';
-import SellerForm from './Pages/SellerForm';
-import Imgupload from './Pages/Imgupload';
-import Imagepage from './Pages/Imagepage';
-import Addresspage from './Pages/Addresspage';
-import AddressFormpage from './Pages/AddressFormpage';
+import Home from './Pages/Home/Home';
+import Signup from './Pages/Signup/Signup';
+import Login from './Pages/Login/Login';
+import SellerForm from './Pages/SellerForm/SellerForm';
+import ImageUpload from './Pages/ImageUpload/ImageUpload';
+import Privateroute from './Components/PrivateRoute/Privateroute';
+import Address from './Pages/Address/Address';
+import Header from './Layouts/Header/Header';
+import Cart from './Pages/Cart/Cart';
+import Order from './Pages/Order/Order';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
     <>
       <Router>
-        <Switch>
-          <Privateroute exact path="/" component={Home} />
-          <Privateroute exact path="/imgupload" component={Imgupload} />
-          <Privateroute exact path="/imagepage" component={Imagepage} />
-          <Privateroute exact path="/sellerform" component={SellerForm} />
-          <Privateroute exact path="/addresspage" component={Addresspage} />
-          <Privateroute exact path="/addressformpage" component={AddressFormpage} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/login" component={Login} />
-        </Switch>
-      </Router>
+        <Header>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Privateroute exact path="/form" component={SellerForm} />
+            <Privateroute exact path="/imgupload" component={ImageUpload} />
+            <Privateroute exact path="/address" component={Address} />
+            <Privateroute exact path="/order" component={Order} />
+          </Switch>
+          </Header>
+        </Router>
     </>
   );
 }

@@ -15,8 +15,7 @@ export default function Login() {
         data: {
           email: email,
           password: password,
-          token: localStorage.getItem('token'),
-        },
+        }
       });
       const token = response.data.token;
       const user = response.data.user;

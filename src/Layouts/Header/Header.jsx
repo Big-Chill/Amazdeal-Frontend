@@ -26,8 +26,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import HowToRegSharpIcon from '@mui/icons-material/HowToRegSharp';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, Redirect } from 'react-router-dom';
 import { Button } from '@mui/material';
+import axios from 'axios';
 
 
 const drawerWidth = 240;
@@ -124,6 +125,7 @@ export default function Header({ children }) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -184,6 +186,9 @@ export default function Header({ children }) {
               )
             }
           </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to="/order" style={{ textDecoration: 'none', color: 'black' }}>My Orders</Link>
+          </MenuItem>
           <MenuItem onClick={logOut}>Logout</MenuItem>
 
         </div>
@@ -200,10 +205,35 @@ export default function Header({ children }) {
     </Menu>
   );
 
+  const handleSearch = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `http://localhost:3001/image/search?search_query=${searchQuery}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      localStorage.setItem('searchResults', JSON.stringify(response.data.data));
+    } catch (error) {
+      console.log('Error :- ', error);
+    }
+  }
+
   React.useEffect(() => {
     localStorage.setItem('isLoggedIn', isLoggedIn);
+    localStorage.setItem('searchQuery', searchQuery);
     setCartItems(JSON.parse(localStorage.getItem('cart'))?.length);
-  }, [isLoggedIn, cartItems]);
+    if(localStorage.getItem('searchQuery').length > 0){
+      handleSearch();
+    }
+    else
+    {
+      localStorage.setItem('searchResults', JSON.stringify([]));
+      localStorage.setItem('searchQuery', '');
+    }
+  }, [isLoggedIn, cartItems, searchQuery])
 
 
 
@@ -241,7 +271,19 @@ export default function Header({ children }) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (e.target.value.length === 0) {
+                  localStorage.setItem('searchResults', JSON.stringify([]));
+                  localStorage.setItem('searchQuery', '');
+                  return history.push('/');
+                }
+              }}
             />
+            <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" onClick={() => history.push('/search')}>
+              <SearchIcon />
+            </IconButton>
           </Search>
 
           <Box sx={{ flexGrow: 1 }} />

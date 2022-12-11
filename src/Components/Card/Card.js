@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Card({ image, title, price, allDetails }) {
+
+  const history = useHistory();
 
   const addToCart = () => {
     let existingCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -22,6 +25,7 @@ export default function Card({ image, title, price, allDetails }) {
       }
       localStorage.setItem('cart', JSON.stringify(existingCart));
     }
+    history.push('/cart');
     window.location.reload();
   };
 

@@ -9,6 +9,7 @@ import Address from './Pages/Address/Address';
 import Header from './Layouts/Header/Header';
 import Cart from './Pages/Cart/Cart';
 import Order from './Pages/Order/Order';
+import SearchResult from './Pages/SearchResult/SearchResult';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/search" component={SearchResult} />
             <Privateroute exact path="/form" component={SellerForm} />
             <Privateroute exact path="/imgupload" component={ImageUpload} />
             <Privateroute exact path="/address" component={Address} />
